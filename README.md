@@ -1,60 +1,63 @@
-# Amazing Facts Indonesia Mobile App (AFL 2 - MVVM Implementation)
-Halo Pak Mychael, Ini adalah proyek aplikasi mobile **Amazing Facts Indonesia** yang dikembangkan menggunakan Flutter untuk memenuhi tugas **AFL 2 (Sesi 8)**. Aplikasi ini dibuat sebagai pusat informasi rohani terpadu agar pengguna bisa mengakses seluruh materi pembelajaran dan layanan komunikasi dalam satu platform tanpa harus berpindah-pindah aplikasi.
 
-Aplikasi ini dibangun sepenuhnya menggunakan arsitektur **Industrial MVVM (Model-View-ViewModel)** dengan bantuan package **Provider** sebagai pengatur state-nya untuk menjamin pemisahan kode yang bersih antara UI (Frontend) dan logika bisnis.
+**Amazing Facts Indonesia Mobile App (Revisi AFL 2 - MVVM & Jaringan Terintegrasi)**
 
+Selamat malam Pak Mychael, ini adalah pembaruan proyek aplikasi mobile Amazing Facts Indonesia yang telah direfaktor total untuk memenuhi seluruh poin instruksi revisi pada AFL 2. Pada pembaruan ini, aplikasi tidak lagi sekadar menggunakan simulasi memori lokal mentah, melainkan sudah dikembangkan dengan standar arsitektur industri yang siap menghubungkan client-server secara asinkron.
 
-## Struktur Arsitektur (Bagaimana Kode Ini Dividisikan)
-Aplikasi ini dibagi menjadi 4 lapisan utama sesuai prinsip MVVM agar kodenya rapi, terstruktur, dan mudah dirawat:
-1.  **Model**: Berisi cetakan data mentah aplikasi (blueprint data), seperti cetakan data profil pengguna (`UserModel`), data artikel renungan, data galeri video, hingga data kontak pelayanan.
-2.  **Repository**: Bagian terisolasi yang bertugas mengatur lalu lintas data (simulasi database lokal), termasuk mengeksekusi fungsi manajemen data CRUD (Create, Read, Update, Delete) akun pengguna.
-3.  **ViewModel**: Jembatan utama yang mengatur logika bisnis dan menyediakan data siap pakai untuk tampilan UI. Kelas ini memperluas `ChangeNotifier` untuk menyiarkan sinyal perubahan data secara reaktif ke layar.
-4.  **View**: Semua halaman visual yang dilihat dan digunakan oleh pengguna. Lapisan ini memanfaatkan widget `Consumer` dari package Provider agar UI bisa merespons perubahan status data secara instan dan otomatis.
+**Struktur Arsitektur dan Pembagian Folder (Sistem Satu Pintu)**
 
+Mengikuti instruksi dari Bapak, proyek ini sekarang menerapkan sistem library tunggal menggunakan kata kunci "part" dan "part of" di setiap folder utama. Tujuannya adalah menghilangkan penumpukan baris import di setiap file individu, sehingga manajemen kode menjadi jauh lebih bersih. Aplikasi kini dibagi menjadi lapisan-lapisan berikut:
 
-## Daftar Fitur Lengkap Aplikasi (Capaian AFL 2)
-Berikut adalah seluruh fitur fungsional yang sudah berhasil diimplementasikan di dalam aplikasi hingga tahap evaluasi AFL 2:
+**1. data (Networking & Sirkulasi Data)**
+Folder ini bertindak sebagai pengatur sirkulasi data keluar-masuk aplikasi. Di dalamnya terdapat sub-folder "network" dan file "api_client.dart" yang menggunakan library "http" dari pub.dev. File ini bertindak sebagai HTTPS client untuk mengatur hubungan asinkron dengan server luar (API server) sekaligus menangani status respons internet, seperti mendeteksi apakah koneksi berhasil (status code 200) atau gagal.
 
-### Modul Autentikasi & Manajemen Akun (Penyimpanan Memori Sementara)
-1. **Registrasi Akun Baru**: Pengguna dapat mendaftarkan akun baru menggunakan email, nama lengkap, dan kata sandi. Data ini disimpan sementara di dalam memori aplikasi menggunakan pola Repository lokal.
-2. **Akses Masuk (Login)**: Pengguna bisa masuk ke dalam sistem aplikasi secara aman untuk mengakses fitur privat. Proses pencocokan data dilakukan via simulasi di dalam kelas UserViewModel.
-3. **Sesi Keluar (Logout)**: Menghapus data sesi login secara murni dari memori aplikasi (RAM), mengubah tampilan aplikasi kembali ke status sebelum masuk, dan menutup drawer secara otomatis.
-4. **Formulir Ubah Profil**: Pengguna yang sudah masuk bisa memperbarui data diri lengkap mereka melalui form input teks fungsional di halaman Edit Akun, dan datanya langsung terupdate di layar secara *real-time*.
-5. *Catatan Teknis (Frontend Development)*: Karena tugas AFL 2 ini berfokus pada arsitektur pola MVVM, semua data akun di atas disimpan di dalam memori lokal jangka pendek (State Management). Jika aplikasi di-*restart* atau dihentikan dari VS Code, data akun akan kembali ke kondisi bawaan (reset) karena belum terhubung ke database server permanen atau API eksternal.
+**2. models (Blueprint Data & Equatable)**
+Folder ini berisi cetakan data mentah aplikasi. Semua model di sini (UserModel, RenunganModel, VideoModel, dan KontakModel) sekarang wajib memperluas (extends) "Equatable" dari pub.dev. Dengan mengimplementasikan props, Flutter dapat membandingkan nilai objek secara efisien tanpa memicu kebocoran memori atau rendering UI yang tidak perlu.
 
-### Modul Konten Rohani Terpusat (Simulasi Data Lokal)
-1. **Feed Renungan Harian**: Menampilkan daftar artikel renungan terbaru di halaman utama lengkap dengan gambar, tanggal, judul, dan ringkasan teks (menggunakan simulasi data lokal/mock data dari RenunganViewModel).
-2. **Arsip Renungan Utuh**: Menu navigasi khusus untuk melihat seluruh daftar arsip artikel renungan rohani yang tersedia secara terorganisir.
-3. **Detail Renungan**: Pengguna bisa mengetuk artikel renungan tertentu untuk membaca seluruh isi pesan rohani secara penuh di halaman detail secara dinamis.
+**3. repositories (Penampung Fungsi GET & POST)**
+Folder ini bertindak sebagai penghubung antar model dan lapisan jaringan. Semua fungsi asinkron untuk mengambil atau mengirim data ke server luar (seperti loginCheck, getRenungan, getVideos, dan getKontakInfo) ditampung di sini. Data respons mentah (JSON) dari ApiClient pertama kali diterima oleh Repository, didecode, diconvert ke dalam bentuk objek model, baru kemudian dilempar ke ViewModel.
 
-### Modul Perpustakaan Media & Video (Simulasi Data Lokal)
-1. **Galeri Video Pembelajaran**: Menampilkan kumpulan video pembelajaran Alkitab interaktif pada halaman utama dalam bentuk *horizontal-scrolling list* (menggunakan data dummy lokal yang terstruktur via VideoViewModel).
-2. **Koleksi Video AFTV**: Halaman arsip khusus yang memuat daftar lengkap koleksi video Amazing Facts TV.
-3. **Integrasi Pemutar YouTube**: Menggunakan fitur *deep linking* eksternal melalui package `url_launcher`. Setiap video dummy yang diketuk pengguna akan otomatis meluncurkan dan membuka aplikasi YouTube atau browser asli menuju tautan video yang sesungguhnya.
+**4. viewmodels (Manajemen State & Aliran Stream)**
+Folder ini berisi pengatur alur data (stream) sebelum disiarkan ke UI. Semua kelas di sini memperluas "ChangeNotifier" untuk mengatur status loading aplikasi dan memicu fungsi "notifyListeners()". ViewModel memanggil fungsi dari Repository, lalu menyiarkan data tersebut agar tampilan visual di layar bisa langsung terupdate.
 
-### Modul Hotline Pelayanan & Donasi (Banner Diagonal Split)
-1. **Hotline Konseling Alkitab**: Tombol akses cepat terintegrasi langsung yang akan mengarahkan pengguna ke aplikasi WhatsApp CS untuk melakukan konsultasi rohani pribadi.
-2. **Informasi Rekening Donasi**: Menampilkan detail informasi rekening bank resmi pelayanan (Nama Bank, Nomor Rekening, dan Atas Nama) secara jelas tanpa memakan banyak ruang layar.
-3. **Konfirmasi Bukti Donasi**: Tombol interaktif khusus yang otomatis terhubung ke WhatsApp Humas untuk mempermudah pendukung pelayanan mengirimkan konfirmasi dukungan.
+**5. views (Pemisahan Pages dan Widgets Modular)**
+Lapisan visual UI sekarang dipisah secara tegas menjadi dua bagian:
 
+* **views/pages**: Berisi file blueprint halaman utuh (tampilan penuh aplikasi) seperti splash_screen, login_view, register_view, home_screen, daftar_renungan_view, renungan_detail_view, daftar_video_view, dan edit_akun_view.
+* **views/widgets**: Berisi komponen modular kecil yang bisa digunakan kembali secara massal untuk keperluan berbeda di berbagai halaman. Sebagai contoh, kami membuat "custom_input_field.dart" yang membungkus dekorasi TextField bertema gelap dan emas universal, sehingga halaman login dan register tinggal memanggil widget kustom ini tanpa perlu menulis ulang dekorasi yang panjang.
 
-## Cara Menjalankan Aplikasi di Laptop Anda
-Ikuti langkah mudah berikut untuk membuka dan mengetes proyek ini:
-1.  **Buka Folder Proyek**: Pastikan kamu sudah membuka folder utama `amazing_facts_indo` di VS Code atau terminal kamu.
-2.  **Unduh Dependensi**: Jalankan perintah berikut di terminal untuk mendownload semua library (termasuk Provider dan Url Launcher):
-    ```bash
-    flutter pub get
-    ```
-3.  **Nyalakan Simulator**: Buka Xcode Simulator (untuk pengguna Mac) atau Android Emulator.
-4.  **Jalankan Aplikasi**: Tekan tombol **F5** pada keyboard di VS Code, atau ketik perintah ini di terminal:
-    ```bash
-    flutter run
-    ```
+**6. shared (Konstanta Universal)**
+Folder baru yang ditambahkan untuk mendeklarasikan variabel yang digunakan secara massal di seluruh aplikasi, seperti menyimpan konfigurasi Base URL universal dan nama aplikasi di dalam file "constants.dart".
 
+---
 
-## Refleksi Tugas (Assignment Reflection)
+**Daftar Pembaruan Fitur Aplikasi (Capaian Hasil Revisi)**
+
+Berikut adalah sirkulasi fitur yang sudah berjalan stabil setelah perbaikan arsitektur:
+
+* **Mekanisme Error Handling Jaringan Terbuka**: Saat aplikasi dijalankan, ViewModel otomatis memicu penarikan data asinkron dari Repositori menuju ApiClient. Jika server eksternal (seperti Laravel lokal) belum aktif atau gagal merespons, sistem try-catch yang kami buat di lapisan data tidak akan membuat aplikasi crash. Sistem akan langsung menampilkan log pemberitahuan di terminal dan otomatis mengalihkan aliran data ke cadangan data simulasi internal agar UI tetap tampil dengan aman.
+* **Autentikasi dan Mutasi Profil Reaktif**: Proses registrasi, pemeriksaan login, dan logout sudah terhubung berjenjang dari halaman ke UserViewModel melalui UserRepository. Karena UserModel sekarang bersifat Equatable (property final), fitur ubah profil di halaman Edit Akun diimplementasikan dengan metode pembuatan objek instans baru di dalam ViewModel, yang terbukti sukses memperbarui data jemaat secara real-time di layar depan tanpa merusak state aplikasi.
+* **Perpustakaan Video dan Deep Linking**: Daftar Koleksi Video AFTV kini ditarik secara terstruktur. Saat salah satu kartu video diketuk oleh pengguna, fungsi asinkron akan memicu library "url_launcher" yang diimport terpusat di gerbang "pages.dart" untuk membuka deep link tautan YouTube eksternal melalui browser atau aplikasi YouTube asli perangkat.
+* **Banner Layanan Konseling & Donasi**: Bagian bawah halaman utama menampilkan banner informasi kontak yang memisahkan fitur chat WhatsApp CS Konseling dan detail rekening mitra donasi dengan aman melalui komponen DiagonalSplitClipper kustom.
+
+---
+
+**Cara Menjalankan Aplikasi di Perangkat Simulator**
+
+1. Pastikan Anda berada di direktori utama proyek melalui terminal VS Code: amazing_facts_indo
+2. Bersihkan sisa cache kompilasi build lama dengan mengetik:
+`flutter clean`
+3. Unduh ulang paket dependensi http, equatable, provider, dan url_launcher yang terdaftar di berkas satu pintu melalui perintah:
+`flutter pub get`
+4. Pastikan simulator iOS atau emulator Android Anda sudah aktif dan terdeteksi di pojok kanan bawah VS Code.
+5. Jalankan aplikasi dengan mengetik perintah:
+`flutter run`
+
+---
+
+**Refleksi Tugas (Assignment Reflection)**
+
 **Apa yang Saya Pelajari:**
-Membangun aplikasi ini menggunakan pola desain MVVM benar-benar membuka mata saya tentang cara menyusun kode yang rapi. Di proyek-proyek sebelumnya, saya terbiasa mencampur kodingan tampilan UI dengan logika aplikasi di dalam satu file yang sama, sehingga kodenya jadi berantakan dan susah kalau mau mencari eror. Dengan memisahkan program menjadi lapisan Model, View, dan ViewModel, sekarang saya paham bagaimana sebuah aplikasi standar industri yang profesional itu dirancang. Mengelola data akun pengguna lewat lapisan Repository serta belajar cara memperbarui data teks tertentu secara spesifik memberikan saya banyak wawasan koding Flutter yang sangat praktis.
+Proses merombak total struktur aplikasi ini berdasarkan koreksi dari Bapak benar-benar memberikan pemahaman baru bagi saya mengenai standar koding industri yang sebenarnya. Di proyek awal, saya akui masih sering mencampuradukkan baris import library pihak ketiga di sembarang file dan menggabungkan banyak logika di dalam satu halaman tampilan. Melalui revisi ini, saya belajar bagaimana mengisolasi urusan jaringan di folder data, membuat cetakan data yang efisien dengan Equatable, and menyatukan berkas individu menggunakan sistem ekspor satu pintu (library, part, dan part of). Memisahkan halaman utama (pages) dengan komponen teks input modular (widgets) juga membuat saya paham bagaimana cara menulis kode yang efisien, hemat baris, dan tidak berulang-ulang.
 
 **Tantangan yang Dihadapi:**
-Tantangan paling berat yang saya hadapi dalam tugas ini adalah menyinkronkan status login pengguna secara global di berbagai komponen layar. Membuat tombol di banner halaman utama berubah otomatis dari "Daftar/Masuk" menjadi "Ubah Akun" di detik yang sama saat pengguna sukses login membutuhkan pelacakan data (*state*) yang sangat teliti. Saya juga sempat bingung dengan masalah cakupan data, di mana tombol keluar akun di menu samping ternyata tidak otomatis menyegarkan tampilan halaman depan. Menyelesaikan masalah eror notifikasi ini memaksa saya untuk membungkus halaman menggunakan widget Consumer global, yang akhirnya sangat melatih kemampuan *debugging* dan menaikkan rasa percaya diri saya dalam mengembangkan aplikasi dengan Flutter.
+Tantangan terbesar dalam revisi ini adalah memperbaiki putusnya aliran data akibat perubahan property model menjadi final demi memenuhi syarat Equatable. Saya sempat menghadapi kendala eror kompilasi Xcode yang cukup banyak karena Flutter menolak tanda sama dengan (=) untuk mengubah variabel user secara langsung saat fitur edit profil dieksekusi. Saya harus mencari cara dan belajar untuk dapat menyusun ulang fungsi di UserViewModel agar membuat cetakan objek UserModel baru dari data input tekstual yang dikirim oleh View. Selain itu, melacak dan memastikan semua file individu terikat dengan benar ke file gerbang utamanya tanpa ada import mandiri yang terselip membutuhkan tingkat ketelitian yang sangat tinggi. Namun, ketika melihat aplikasi ini akhirnya berhasil berjalan mulus di simulator tanpa ada baris eror merah lagi di terminal, hal itu sangat meningkatkan rasa percaya diri saya dalam menguasai framework Flutter.

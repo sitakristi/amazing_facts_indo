@@ -21,7 +21,7 @@ Sesuai instruksi, saya juga menerapkan sistem satu pintu menggunakan **part** da
 
 Aplikasi ini dapat dijalankan melalui dua jalur, tergantung apakah Anda ingin membukanya lewat GUI Xcode atau langsung menggunakan perintah Terminal:
 
-**Opsi 1: Melalui Terminal (Universal - Windows & Mac)**
+**Opsi 1: Melalui Terminal (Mac atau Windows)**
 Ini adalah cara paling cepat untuk menjalankan aplikasi langsung menggunakan Android Emulator atau iOS Simulator yang sudah aktif di laptop Anda:
 
 1. Buka folder proyek `amazing_facts_indo` di terminal atau VS Code.

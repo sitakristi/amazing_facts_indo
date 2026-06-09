@@ -17,50 +17,65 @@ Sesuai instruksi, saya juga menerapkan sistem satu pintu menggunakan **part** da
 
 ---
 
-**Cara Menjalankan Aplikasi Menggunakan Xcode di Mac**
+**Cara Menjalankan Aplikasi**
 
-Jika Anda ingin membuka dan menjalankan proyek iOS dari aplikasi ini melalui Xcode di perangkat Mac, silakan ikuti langkah-langkah mudah berikut:
+Aplikasi ini dapat dijalankan melalui dua jalur, tergantung apakah Anda ingin membukanya lewat GUI Xcode atau langsung menggunakan perintah Terminal:
 
-**1. Unduh Dependensi Awal**
-Buka aplikasi Terminal di Mac Anda, masuk ke direktori utama proyek `amazing_facts_indo`, lalu jalankan dua perintah ini secara berurutan untuk membersihkan cache dan mengunduh library Flutter yang dibutuhkan:
+**Opsi 1: Melalui Terminal (Universal - Windows & Mac)**
+Ini adalah cara paling cepat untuk menjalankan aplikasi langsung menggunakan Android Emulator atau iOS Simulator yang sudah aktif di laptop Anda:
 
-```bash
-flutter clean
-
-```
-
+1. Buka folder proyek `amazing_facts_indo` di terminal atau VS Code.
+2. Unduh seluruh package library yang dibutuhkan dengan mengetik perintah:
 ```bash
 flutter pub get
 
 ```
 
-**2. Rakit Struktur Berkas Pods**
-Masuk ke dalam folder direktori iOS proyek untuk memasang modul pod Xcode agar seluruh library eksternal (seperti url_launcher) terkonfigurasi dengan sistem Apple:
 
-```bash
-cd ios
+
+```
+3. Jalankan aplikasi menuju emulator perangkat Anda dengan perintah:
+   ```bash
+   flutter run
 
 ```
 
+**Opsi 2: Melalui Xcode (Khusus Pengguna Mac)**
+Jika Anda menggunakan perangkat Mac dan ingin memeriksa atau menjalankan proyek iOS langsung dari aplikasi Xcode, silakan ikuti langkah-langkah berikut:
+
+1. Buka terminal di direktori utama proyek, lalu bersihkan cache dan unduh dependensi Flutter dengan mengetik:
 ```bash
+
+```
+
+
+
+flutter clean
+
+```
+   ```bash
+flutter pub get
+
+```
+
+2. Masuk ke folder iOS untuk menginstal modul pod Apple agar library eksternal terkonfigurasi dengan benar:
+```bash
+
+```
+
+
+
+cd ios
+
+```
+   ```bash
 pod install
 
 ```
 
-Setelah proses instalasi pod selesai, kembali ke folder utama dengan mengetik perintah `cd ..`.
-
-**3. Membuka Proyek Melalui GUI Xcode**
-
-* Buka aplikasi **Finder** di Mac Anda, lalu arahkan ke folder proyek `amazing_facts_indo/ios/`.
-* Cari berkas bernama **`Runner.xcworkspace`** (pastikan memilih ikon yang berwarna putih/workspace, bukan berkas *xcodeproj* yang berwarna biru).
-* Klik dua kali berkas tersebut untuk membukanya secara resmi ke dalam aplikasi Xcode.
-
-**4. Menjalankan Proyek di Simulator**
-
-* Setelah jendela Xcode terbuka sempurna, lihat bagian bar menu atas Xcode.
-* Pilih target perangkat simulator iOS yang ingin Anda gunakan (misalnya iPhone 15 atau iPhone 17).
-* Klik tombol **Play** (ikon segitiga di pojok kiri atas Xcode) atau tekan kombinasi tombol **`Command + R`** pada keyboard Mac Anda.
-* Tunggu hingga proses perakitan selesai (*Build Succeeded*), dan aplikasi Amazing Facts Indonesia akan otomatis menyala di simulator.
+Setelah selesai, kembali ke folder utama dengan mengetik `cd ..`.
+3. Buka aplikasi **Finder**, masuk ke folder proyek `amazing_facts_indo/ios/`, lalu klik dua kali berkas **`Runner.xcworkspace`** (pilih ikon yang berwarna putih, bukan berkas *xcodeproj* yang berwarna biru).
+4. Setelah jendela Xcode terbuka, pilih simulator iOS yang ingin digunakan pada bar menu atas, lalu klik tombol **Play** (ikon segitiga di pojok kiri atas) atau tekan tombol **`Command + R`** pada keyboard Mac.
 
 ---
 

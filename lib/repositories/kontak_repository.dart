@@ -1,6 +1,4 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import '../models/kontak_model.dart';
+part of repositories;
 
 class KontakRepository {
   final String _apiUrl = 'http://localhost:8000/api/kontak';
@@ -15,9 +13,8 @@ class KontakRepository {
       print("Koneksi ke Laravel belum siap, menggunakan data simulasi Kontak.");
     }
 
-    // DATA SIMULASI KONTAK (Sesuai dengan nomor yang ada di proposal MVP kamu)
-    return KontakModel(
-      nomorHotline: "628975821234", // Format kode negara Indonesia tanpa tanda + untuk WhatsApp
+    return const KontakModel(
+      nomorHotline: "628975821234",
       nomorHumas: "6285212341110",
       namaBank: "Bank Central Asia",
       nomorRekening: "3930283575",

@@ -1,21 +1,26 @@
-class VideoModel {
+part of models;
+
+class VideoModel extends Equatable {
   final int id;
   final String judul;
-  final String videoUrl; // Link YouTube yang akan memicu Deep Linking ke aplikasi YouTube asli
-  final String thumbnailUrl; // Gambar pratinjau kartu video agar estetikanya mirip versi US
+  final String videoUrl;
+  final String thumbnailUrl;
 
-  VideoModel({
+  const VideoModel({
     required this.id,
     required this.judul,
     required this.videoUrl,
     required this.thumbnailUrl,
   });
 
+  @override
+  List<Object?> get props => [id, judul, videoUrl, thumbnailUrl];
+
   factory VideoModel.fromJson(Map<String, dynamic> json) {
     return VideoModel(
-      id: json['id'],
-      judul: json['judul'],
-      videoUrl: json['video_url'],
+      id: json['id'] ?? 0,
+      judul: json['judul'] ?? '',
+      videoUrl: json['video_url'] ?? '',
       thumbnailUrl: json['thumbnail_url'] ?? 'https://via.placeholder.com/150',
     );
   }

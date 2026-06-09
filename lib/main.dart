@@ -1,11 +1,10 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'viewmodels/renungan_viewmodel.dart';
-import 'viewmodels/video_viewmodel.dart';
-import 'viewmodels/kontak_viewmodel.dart';
-import 'viewmodels/user_viewmodel.dart'; 
-import 'views/splash_screen.dart';
-import '../viewmodels/user_viewmodel.dart';
+
+// HANYA MENGIMPORT GERBANG UTAMA SESUAI ATURAN REVISI DOSEN
+import 'viewmodels/viewmodels.dart'; 
+import 'views/pages/pages.dart';       
 
 void main() {
   runApp(const MyApp());
@@ -16,8 +15,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Di sini proses Dependency Injection (DI) dipasang untuk membungkus seluruh aplikasi.
-    // Ini adalah alternatif terbaik pengganti Singleton sesuai dengan instruksi materi kuliahmu!
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => RenunganViewModel()),
@@ -30,10 +27,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.red,
-          fontFamily: 'Roboto', // Menggunakan font bawaan standar yang bersih
+          fontFamily: 'Roboto', // Menggunakan font bawaan standar agar aman
         ),
-        // Mengarahkan agar aplikasi pertama kali dibuka menampilkan Halaman Sambutan (Splash)
-        home: const SplashScreen(),
+        // Mengarahkan tampilan awal ke SplashScreen yang berada di dalam pages.dart
+        home: const SplashScreen(), 
       ),
     );
   }

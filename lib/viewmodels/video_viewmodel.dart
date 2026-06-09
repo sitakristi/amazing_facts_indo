@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import '../models/video_model.dart';
-import '../repositories/video_repository.dart';
+part of viewmodels;
 
 class VideoViewModel extends ChangeNotifier {
   final VideoRepository _repository = VideoRepository();

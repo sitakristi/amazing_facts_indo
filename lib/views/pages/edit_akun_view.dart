@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../viewmodels/user_viewmodel.dart';
+part of pages;
 
 class EditAkunView extends StatefulWidget {
   const EditAkunView({Key? key}) : super(key: key);
@@ -50,7 +48,6 @@ class _EditAkunViewState extends State<EditAkunView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Mengganti tumpukan lingkaran foto dengan teks header yang bersih
                 const Text(
                   "Informasi Akun",
                   style: TextStyle(color: afGold, fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 0.5),
@@ -62,7 +59,6 @@ class _EditAkunViewState extends State<EditAkunView> {
                 ),
                 const SizedBox(height: 24),
                 
-                // Form input data teks pengguna
                 _buildField("Nama Lengkap", _namaController, Icons.person_outline),
                 _buildField("Tanggal Lahir", _tglLahirController, Icons.calendar_today_outlined),
                 _buildField("No. Telepon", _noTelpController, Icons.phone_android_outlined),
@@ -71,7 +67,6 @@ class _EditAkunViewState extends State<EditAkunView> {
                 _buildField("Kata Sandi", _passwordController, Icons.lock_outline, obscure: true),
                 const SizedBox(height: 32),
                 
-                // Tombol Simpan Perubahan
                 SizedBox(
                   width: double.infinity,
                   height: 50,

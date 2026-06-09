@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import '../models/user_model.dart';
-import '../repositories/user_repository.dart';
+// lib/viewmodels/user_viewmodel.dart
+part of viewmodels;
 
 class UserViewModel extends ChangeNotifier {
   final UserRepository _userRepository = UserRepository();
@@ -9,10 +8,11 @@ class UserViewModel extends ChangeNotifier {
 
   UserModel? get currentUser => _currentUser;
   bool get isLoading => _isLoading;
+
   List<UserModel> get allRegisteredUsers => _userRepository.getAllUsers();
 
-  // Aksi CRUD - Create (Registrasi Akun)
-  Future<bool> registerUser(String nama, String email, String password) async {
+  // Fungsi memproses registrasi jemaat baru ke repositori lokal
+  Future<void> registerUser(String nama, String email, String password) async {
     _isLoading = true;
     notifyListeners();
 
@@ -24,37 +24,38 @@ class UserViewModel extends ChangeNotifier {
     );
 
     await _userRepository.createUser(newUser);
-    
+
     _isLoading = false;
     notifyListeners();
-    return true;
   }
 
-  // Aksi Simulasi Auth - Login
+  // Fungsi memproses pemeriksaan kredensial akun login
   Future<bool> loginUser(String email, String password) async {
     _isLoading = true;
     notifyListeners();
 
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1)); // Efek simulasi asinkron luar
     final user = _userRepository.loginCheck(email, password);
 
-    _isLoading = false;
     if (user != null) {
       _currentUser = user;
+      _isLoading = false;
       notifyListeners();
       return true;
     }
+
+    _isLoading = false;
     notifyListeners();
     return false;
   }
 
-  // FUNGSI LOGOUT USER: Membersihkan data sesi login secara total
+  // Fungsi membersihkan sesi otentikasi (Logout)
   void logoutUser() {
-    _currentUser = null; // Menghapus data jemaat yang sedang aktif
-    notifyListeners();   // Memaksa seluruh UI (HomeScreen) memuat ulang tampilan
+    _currentUser = null;
+    notifyListeners(); // Memaksa seluruh UI (HomeScreen) memuat ulang tampilan kembali bersih
   }
 
-  // Aksi CRUD - Update Profile Lengkap
+  // Perbaikan fungsi update profil lengkap yang sesuai dengan Model Equatable (Final properti)
   Future<void> updateProfileLengkap({
     required String id,
     required String nama,
@@ -66,28 +67,22 @@ class UserViewModel extends ChangeNotifier {
   }) async {
     _isLoading = true;
     notifyListeners();
-    
-    await Future.delayed(const Duration(seconds: 1)); // Simulasi proses simpan
-    
-    if (_currentUser != null && _currentUser!.id == id) {
-      _currentUser!.namaLengkap = nama;
-      _currentUser!.tanggalLahir = tglLahir;
-      _currentUser!.nomorTelepon = noTelp;
-      _currentUser!.alamat = alamat;
-      _currentUser!.email = email;
-      _currentUser!.kataSandi = password;
-    }
-    
-    _isLoading = false;
-    notifyListeners();
-  }
 
-  // Aksi CRUD - Delete Account
-  Future<void> deleteAccount(String id) async {
-    await _userRepository.deleteUser(id);
-    if (_currentUser?.id == id) {
-      _currentUser = null;
-    }
+    // Memperbarui repositori data lokal
+    await _userRepository.updateUser(id, nama);
+
+    // Membuat ulang objek baru karena properti UserModel bermutasi menjadi final (Equatable)
+    _currentUser = UserModel(
+      id: id,
+      namaLengkap: nama,
+      email: email,
+      kataSandi: password,
+      tanggalLahir: tglLahir,
+      nomorTelepon: noTelp,
+      alamat: alamat,
+    );
+
+    _isLoading = false;
     notifyListeners();
   }
 }

@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../viewmodels/renungan_viewmodel.dart';
-import 'renungan_detail_view.dart';
+part of pages;
 
 class DaftarRenunganView extends StatelessWidget {
   const DaftarRenunganView({Key? key}) : super(key: key);
@@ -10,7 +7,11 @@ class DaftarRenunganView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0D1B2A),
-      appBar: AppBar(title: const Text("Daftar Renungan Harian", style: TextStyle(color: Colors.white)), backgroundColor: const Color(0xFF050C1A), iconTheme: const IconThemeData(color: Colors.white)),
+      appBar: AppBar(
+        title: const Text("Daftar Renungan Harian", style: TextStyle(color: Colors.white)), 
+        backgroundColor: const Color(0xFF050C1A), 
+        iconTheme: const IconThemeData(color: Colors.white)
+      ),
       body: Consumer<RenunganViewModel>(
         builder: (context, vm, child) {
           return ListView.builder(

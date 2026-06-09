@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import '../models/kontak_model.dart';
-import '../repositories/kontak_repository.dart';
+part of viewmodels;
 
 class KontakViewModel extends ChangeNotifier {
   final KontakRepository _repository = KontakRepository();

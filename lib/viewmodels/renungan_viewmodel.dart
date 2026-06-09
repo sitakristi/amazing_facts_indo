@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import '../models/renungan_model.dart';
-import '../repositories/renungan_repository.dart';
+part of viewmodels;
 
 class RenunganViewModel extends ChangeNotifier {
   // Kita siapkan objek kurir (Repository) untuk mengambil data

@@ -1,6 +1,4 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import '../models/video_model.dart';
+part of repositories;
 
 class VideoRepository {
   final String _apiUrl = 'http://localhost:8000/api/videos';
@@ -16,19 +14,18 @@ class VideoRepository {
       print("Koneksi ke Laravel belum siap, menggunakan data simulasi Video.");
     }
 
-    // DATA SIMULASI VIDEO (Sesuai gaya tata letak Media Library & AFTV versi US)
-    return [
+    return const [
       VideoModel(
         id: 1,
         judul: "Nubuat Alkitab & Masa Depan Dunia",
-        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // Link YouTube asli yang akan di-Deep Link
-        thumbnailUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500", // Gambar representasi teknologi/media
+        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        thumbnailUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500",
       ),
       VideoModel(
         id: 2,
         judul: "Menemukan Kedamaian di Tengah Badai Hidup",
         videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        thumbnailUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500", // Gambar pemandangan tenang
+        thumbnailUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500",
       ),
     ];
   }

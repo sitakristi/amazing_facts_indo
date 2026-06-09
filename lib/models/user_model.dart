@@ -1,13 +1,15 @@
-class UserModel {
-  String id;
-  String namaLengkap;
-  String email;
-  String kataSandi;
-  String tanggalLahir;
-  String nomorTelepon;
-  String alamat;
+part of models;
 
-  UserModel({
+class UserModel extends Equatable {
+  final String id;
+  final String namaLengkap;
+  final String email;
+  final String kataSandi;
+  final String tanggalLahir;
+  final String nomorTelepon;
+  final String alamat;
+
+  const UserModel({
     required this.id,
     required this.namaLengkap,
     required this.email,
@@ -16,4 +18,7 @@ class UserModel {
     this.nomorTelepon = "-",
     this.alamat = "-",
   });
+
+  @override
+  List<Object?> get props => [id, namaLengkap, email, kataSandi, tanggalLahir, nomorTelepon, alamat];
 }

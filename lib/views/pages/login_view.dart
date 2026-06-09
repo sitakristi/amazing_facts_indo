@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../viewmodels/user_viewmodel.dart';
+// lib/views/pages/login_view.dart
+part of pages;
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -25,12 +24,11 @@ class _LoginViewState extends State<LoginView> {
       return;
     }
 
-    // Menampilkan dialog loading kustom MVVM
     _showLoadingDialog();
 
     final sukses = await viewModel.loginUser(email, password);
     
-    Navigator.pop(context); // Tutup loading dialog
+    Navigator.pop(context); 
 
     if (sukses) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -39,7 +37,7 @@ class _LoginViewState extends State<LoginView> {
           backgroundColor: Colors.green,
         ),
       );
-      Navigator.pop(context); // Kembali ke HomeScreen setelah sukses login
+      Navigator.pop(context); 
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Email atau Kata Sandi salah!"), backgroundColor: Colors.red),
@@ -96,33 +94,21 @@ class _LoginViewState extends State<LoginView> {
                 const Text("Silakan masuk untuk melanjutkan perjalanan rohani Anda.", style: TextStyle(color: Colors.white70, fontSize: 14)),
                 const SizedBox(height: 40),
                 
-                TextField(
+                // Menerapkan panggilan widget kustom modular secara instan
+                CustomInputField(
+                  labelText: "Email",
+                  icon: Icons.email_outlined,
                   controller: _emailController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(
-                    labelText: "Email",
-                    labelStyle: TextStyle(color: afGold),
-                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white24)),
-                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: afGold)),
-                    prefixIcon: Icon(Icons.email_outlined, color: afGold),
-                  ),
                 ),
-                const SizedBox(height: 20),
                 
-                TextField(
+                CustomInputField(
+                  labelText: "Kata Sandi",
+                  icon: Icons.lock_outline,
                   controller: _passwordController,
-                  obscureText: !_isPasswordVisible,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    labelText: "Kata Sandi",
-                    labelStyle: const TextStyle(color: afGold),
-                    enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.white24)),
-                    focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: afGold)),
-                    prefixIcon: const Icon(Icons.lock_outline, color: afGold),
-                    suffixIcon: IconButton(
-                      icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off, color: Colors.white54),
-                      onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
-                    ),
+                  isPassword: !_isPasswordVisible,
+                  suffixIcon: IconButton(
+                    icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off, color: Colors.white54),
+                    onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
                   ),
                 ),
                 

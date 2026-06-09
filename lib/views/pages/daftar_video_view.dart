@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../viewmodels/video_viewmodel.dart';
+part of pages;
 
 class DaftarVideoView extends StatelessWidget {
   const DaftarVideoView({Key? key}) : super(key: key);
@@ -10,7 +7,11 @@ class DaftarVideoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0D1B2A),
-      appBar: AppBar(title: const Text("Daftar Video AFTV", style: TextStyle(color: Colors.white)), backgroundColor: const Color(0xFF050C1A), iconTheme: const IconThemeData(color: Colors.white)),
+      appBar: AppBar(
+        title: const Text("Daftar Video AFTV", style: TextStyle(color: Colors.white)), 
+        backgroundColor: const Color(0xFF050C1A), 
+        iconTheme: const IconThemeData(color: Colors.white)
+      ),
       body: Consumer<VideoViewModel>(
         builder: (context, vm, child) {
           return ListView.builder(

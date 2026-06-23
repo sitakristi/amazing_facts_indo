@@ -28,7 +28,7 @@ void main() {
       const emailValid = 'rasitachristy@email.com';
       const passwordValid = 'kebenaran2026';
 
-      // Hitung jumlah jemaat awal sebelum registrasi dilakukan
+      // Hitung jumlah pengguna awal sebelum registrasi dilakukan
       final jumlahAwal = userViewModel.allRegisteredUsers.length;
 
       // 2. ACT
@@ -38,7 +38,7 @@ void main() {
       // Verifikasi bahwa jumlah pengguna di repositori sekarang bertambah 1
       expect(userViewModel.allRegisteredUsers.length, equals(jumlahAwal + 1));
       
-      // Memastikan jemaat yang baru didaftarkan datanya cocok di dalam list repositori
+      // Memastikan pengguna yang baru didaftarkan datanya cocok di dalam list repositori
       final userBaru = userViewModel.allRegisteredUsers.last;
       expect(userBaru.namaLengkap, equals(namaValid));
       expect(userBaru.email, equals(emailValid));

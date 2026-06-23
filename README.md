@@ -1,4 +1,4 @@
-# **Amazing Facts Indonesia Mobile App (Revisi AFL 2 & AFL 3 - MVVM, Jaringan, & Unit Testing)**
+# **Amazing Facts Indonesia Mobile App (AFL 2 & AFL 3 - MVVM, Jaringan, & Unit Testing)**
 
 Selamat datang di repositori proyek Amazing Facts Indonesia. Aplikasi mobile ini saya kembangkan menggunakan Flutter untuk memenuhi tugas revisi AFL 2 sekaligus melengkapi modul pengujian otomatis untuk memenuhi tugas AFL 3. Melalui pembaruan ini, aplikasi sudah dikembangkan dengan standar arsitektur industri yang siap menghubungkan client-server secara asinkron menggunakan library HTTP.
 
@@ -112,7 +112,7 @@ Berikut adalah visualisasi hasil pengujian fungsional berdasarkan standar pelapo
 **Apa yang Saya Pelajari:**
 Proses merombak total struktur aplikasi ini berdasarkan koreksi dari dosen benar-benar memberikan pemahaman baru bagi saya mengenai standar koding industri yang sebenarnya. Di proyek awal, saya akui masih sering mencampuradukkan baris import library pihak ketiga di sembarang file dan menggabungkan banyak logika di dalam satu halaman tampilan yang sama. Melalui revisi ini, saya belajar bagaimana mengisolasi urusan jaringan di folder data, membuat cetakan data yang efisien dengan Equatable, dan menyatukan berkas individu menggunakan sistem ekspor satu pintu (*library, part,* dan *part of*). Memisahkan halaman utama (*pages*) dengan komponen teks input modular (*widgets*) juga membuat saya paham bagaimana cara menulis kode yang efisien, hemat baris, dan tidak berulang-ulang.
 
-Menerapkan tugas pengujian otomatis pada AFL 3 juga membuka mata saya tentang pentingnya aspek *Software Testability*. Saya belajar bahwa kode yang baik bukan hanya sekadar bisa berjalan saat diklik di simulator, melainkan harus memenuhi kriteria *Decomposability*—yaitu kemampuan kode untuk dipecah menjadi unit-unit kecil terpisah agar bisa diuji secara terisolasi.
+Menerapkan tugas pengujian otomatis pada AFL 3 juga membuka mata saya tentang pentingnya aspek *Software Testability*. Saya belajar bahwa kode yang baik bukan hanya sekadar bisa berjalan saat diklik di simulator, melainkan harus memenuhi kriteria *Decomposability* yaitu kemampuan kode untuk dipecah menjadi unit-unit kecil terpisah agar bisa diuji secara terisolasi.
 
 **Tantangan yang Dihadapi:**
 Tantangan terbesar dalam revisi ini adalah menyesuaikan kembali aliran data aplikasi setelah properti pada model diubah menjadi final demi memenuhi syarat Equatable. Saya sempat menghadapi kendala eror kompilasi Xcode yang cukup banyak karena Flutter menolak perubahan variabel user secara langsung menggunakan tanda sama dengan (=) saat fitur edit profil dieksekusi. Untuk mengatasinya, saya belajar menyiasati logika tersebut dengan menyusun ulang fungsi di UserViewModel agar membuat objek UserModel baru dari data input teks yang dikirim oleh View.

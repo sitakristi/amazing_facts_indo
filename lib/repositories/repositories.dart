@@ -3,6 +3,8 @@ library repositories;
 import 'dart:convert';
 import 'package:http/http.dart' as http; 
 import '../models/models.dart';           
+import 'package:equatable/equatable.dart';
+import 'package:amazing_facts_indo/constants.dart';
 
 
 part 'kontak_repository.dart';

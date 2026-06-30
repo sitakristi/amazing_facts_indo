@@ -1,35 +1,57 @@
 part of repositories;
 
 class RenunganRepository {
-  final String _apiUrl = 'http://localhost:8000/api/renungan';
+  final String _baseUrl = AppConfig.baseUrl;
 
-  Future<List<RenunganModel>> getRenungan() async {
+  // Ambil 1 Data Renungan Hari Ini (Objek Tunggal)
+  Future<RenunganModel?> getRenunganHariIni() async {
     try {
-      final response = await http.get(Uri.parse(_apiUrl)).timeout(const Duration(seconds: 3));
+      final response = await http.get(Uri.parse('$_baseUrl/renungan/hari-ini')).timeout(const Duration(seconds: 15));
       
       if (response.statusCode == 200) {
-        List<dynamic> data = json.decode(response.body);
-        return data.map((item) => RenunganModel.fromJson(item)).toList();
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        
+        // Memastikan isi bungkus 'data' dari Laravel tidak kosong
+        if (responseData['data'] != null) {
+          final Map<String, dynamic> item = responseData['data'];
+          
+          // Memperbaiki jalur URL Gambar lokal server
+          String imageUrl = item['image_url'] ?? '';
+          if (imageUrl.isNotEmpty && !imageUrl.startsWith('http')) {
+            final String baseStorage = _baseUrl.replaceAll('/api', '/storage');
+            imageUrl = '$baseStorage/$imageUrl';
+          }
+
+          return RenunganModel.fromJson(item).copyWith(imageUrl: imageUrl);
+        }
       }
     } catch (e) {
-      print("Koneksi ke Laravel belum siap, menggunakan data simulasi Indonesia.");
+      print("Koneksi ke Laravel (Hari Ini) terkendala: $e");
     }
+    return null;
+  }
 
-    return const [
-      RenunganModel(
-        id: 1,
-        judul: "Berakar di Inside Firman",
-        isi: "Hari ini kita belajar bahwa hidup rohani yang kuat membutuhkan akar yang dalam pada Firman Tuhan, seperti pohon yang ditanam di tepi aliran air.",
-        tanggal: "20 Mei 2026",
-        imageUrl: "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=500",
-      ),
-      RenunganModel(
-        id: 2,
-        judul: "Pelita Bagi Jalanku",
-        isi: "Firman-Mu adalah pelita bagi kakiku dan terang bagi jalanku. Di tengah kegelapan dunia, petunjuk Tuhan selalu memberikan kepastian.",
-        tanggal: "19 Mei 2026",
-        imageUrl: "https://images.unsplash.com/photo-1447069387593-a5de0862481e?w=500",
-      ),
-    ];
+  // Ambil Semua Daftar Renungan (List/Array)
+  Future<List<RenunganModel>> getRenungan() async {
+    try {
+      final response = await http.get(Uri.parse('$_baseUrl/renungan')).timeout(const Duration(seconds: 15));
+      
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        final List<dynamic> dataList = responseData['data'] ?? [];
+        
+        return dataList.map((item) {
+          String imageUrl = item['image_url'] ?? '';
+          if (imageUrl.isNotEmpty && !imageUrl.startsWith('http')) {
+            final String baseStorage = _baseUrl.replaceAll('/api', '/storage');
+            imageUrl = '$baseStorage/$imageUrl';
+          }
+          return RenunganModel.fromJson(item).copyWith(imageUrl: imageUrl);
+        }).toList();
+      }
+    } catch (e) {
+      print("Koneksi ke Laravel (Daftar Arsip) terkendala: $e");
+    }
+    return const [];
   }
 }

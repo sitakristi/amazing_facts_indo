@@ -230,51 +230,66 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
+                
+                // 🌟 BAGIAN RENUNGAN HARIAN (DIPERBAIKI KHUSUS HANYA 1 DATA HARI INI)
                 const Padding(padding: EdgeInsets.only(left: 18, top: 10, bottom: 8), child: Text("Renungan Harian", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: afGold))),
                 Consumer<RenunganViewModel>(
                   builder: (context, viewModel, child) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: viewModel.daftarRenungan.length,
-                      itemBuilder: (context, index) {
-                        final r = viewModel.daftarRenungan[index];
-                        return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          decoration: BoxDecoration(color: afCardNavy, borderRadius: BorderRadius.circular(16)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell( 
-                                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => RenunganDetailView(renungan: r))),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.network(r.imageUrl, height: 160, width: double.infinity, fit: BoxFit.cover, errorBuilder: (c,e,s) => Container(height: 160, color: Colors.grey[900])),
-                                    Padding(
-                                      padding: const EdgeInsets.all(16),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(r.tanggal, style: const TextStyle(color: Colors.white54, fontSize: 11)),
-                                          const SizedBox(height: 6),
-                                          Text(r.judul, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
-                                          const SizedBox(height: 6),
-                                          Text(r.isi, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white70, fontSize: 13)),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
+                    // Cek status loading animasi muter-muter
+                    if (viewModel.isLoading) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 24),
+                        child: Center(child: CircularProgressIndicator(color: afGold)),
+                      );
+                    }
+
+                    // Ambil 1 objek tunggal renungan hari ini
+                    final r = viewModel.renunganHariIni;
+
+                    // Pengaman jika data kosong atau gagal dimuat dari server backend
+                    if (r == null) {
+                      return const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Text("Tidak ada renungan untuk hari ini.", style: TextStyle(color: Colors.white54)),
+                      );
+                    }
+
+                    // Hanya merender SATU KOTAK tunggal renungan hari ini (Bukan ListView lagi)
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(color: afCardNavy, borderRadius: BorderRadius.circular(16)),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell( 
+                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (c) => RenunganDetailView(renungan: r))),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.network(r.imageUrl, height: 160, width: double.infinity, fit: BoxFit.cover, errorBuilder: (c,e,s) => Container(height: 160, color: Colors.grey[900])),
+                                Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(r.tanggal, style: const TextStyle(color: Colors.white54, fontSize: 11)),
+                                      const SizedBox(height: 6),
+                                      Text(r.judul, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                                      const SizedBox(height: 6),
+                                      Text(r.isi, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white70, fontSize: 13)),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     );
                   },
                 ),
+                
                 const Padding(padding: EdgeInsets.only(left: 18, top: 20, bottom: 8), child: Text("Perpustakaan Media & AFTV", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: afGold))),
                 Consumer<VideoViewModel>(
                   builder: (context, viewModel, child) {

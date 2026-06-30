@@ -1,17 +1,21 @@
 part of viewmodels;
 
 class RenunganViewModel extends ChangeNotifier {
-  // Kita siapkan objek kurir (Repository) untuk mengambil data
+  // Siapkan objek kurir (Repository) untuk mengambil data
   final RenunganRepository _repository = RenunganRepository();
 
-  // Ini adalah wadah untuk menyimpan daftar renungan
+  // Wadah untuk menyimpan daftar renungan lengkap (arsip)
   List<RenunganModel> _daftarRenungan = [];
   
-  // Ini adalah indikator status loading (untuk memunculkan muter-muter loading di UI)
+  // Wadah khusus untuk menyimpan 1 data renungan hari ini
+  RenunganModel? _renunganHariIni;
+  
+  // Ini adalah indikator status loading
   bool _isLoading = false;
 
-  // Fungsi agar halaman View (UI) bisa mengintip data renungan
+  // Fungsi agar halaman View (UI) bisa mengintip data
   List<RenunganModel> get daftarRenungan => _daftarRenungan;
+  RenunganModel? get renunganHariIni => _renunganHariIni; // 🌟 Getter baru
   bool get isLoading => _isLoading;
 
   // Fungsi utama untuk mengambil data renungan
@@ -20,13 +24,16 @@ class RenunganViewModel extends ChangeNotifier {
     notifyListeners(); // Kasih tahu UI untuk nampilin animasi loading
 
     try {
-      // Menyuruh repository mengambil data (baik dari Laravel atau data simulasi)
+      // 🌟 1. Ambil data objek tunggal untuk halaman depan
+      _renunganHariIni = await _repository.getRenunganHariIni();
+
+      // 📂 2. Ambil data list lengkap untuk halaman arsip
       _daftarRenungan = await _repository.getRenungan();
     } catch (e) {
       print("Gagal mengambil data renungan: $e");
     } finally {
       _isLoading = false;
-      notifyListeners(); // Kasih tahu UI bahwa loading selesai dan data siap ditampilkan!
+      notifyListeners(); // Kasih tahu UI bahwa data siap ditampilkan!
     }
   }
 }

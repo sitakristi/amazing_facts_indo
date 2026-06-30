@@ -1,46 +1,57 @@
-// lib/viewmodels/user_viewmodel.dart
 part of viewmodels;
 
 class UserViewModel extends ChangeNotifier {
   final UserRepository _userRepository = UserRepository();
   UserModel? _currentUser;
+  String? _token; 
   bool _isLoading = false;
 
   UserModel? get currentUser => _currentUser;
+  String? get token => _token;
   bool get isLoading => _isLoading;
 
   List<UserModel> get allRegisteredUsers => _userRepository.getAllUsers();
 
-  // Fungsi memproses registrasi jemaat baru ke repositori lokal
-  Future<void> registerUser(String nama, String email, String password) async {
+  Future<bool> registerUser(String nama, String email, String password) async {
     _isLoading = true;
     notifyListeners();
 
     final newUser = UserModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: '',
       namaLengkap: nama,
       email: email,
       kataSandi: password,
     );
 
-    await _userRepository.createUser(newUser);
+    final result = await _userRepository.createUser(newUser);
 
     _isLoading = false;
     notifyListeners();
+    return result['success'] ?? false;
   }
 
-  // Fungsi memproses pemeriksaan kredensial akun login
+  // 🌟 FUNGSI LOGIN (Memastikan UI langsung berubah begitu sukses)
   Future<bool> loginUser(String email, String password) async {
     _isLoading = true;
     notifyListeners();
 
-    await Future.delayed(const Duration(seconds: 1)); // Efek simulasi asinkron luar
-    final user = _userRepository.loginCheck(email, password);
+    final result = await _userRepository.loginCheck(email, password);
 
-    if (user != null) {
-      _currentUser = user;
+    if (result['success'] == true) {
+      _token = result['token']; 
+      final userData = result['user'];
+      
+      _currentUser = UserModel(
+        id: userData['id'].toString(),
+        namaLengkap: userData['name'] ?? '',
+        email: userData['email'] ?? '',
+        kataSandi: password,
+        nomorTelepon: userData['phone'] ?? '-',   
+        alamat: userData['address'] ?? '-',       
+      );
+
       _isLoading = false;
-      notifyListeners();
+      notifyListeners(); // 🌟 Memicu HomeScreen untuk mengubah tombol "Masuk" jadi Profil Akun
       return true;
     }
 
@@ -49,14 +60,13 @@ class UserViewModel extends ChangeNotifier {
     return false;
   }
 
-  // Fungsi membersihkan sesi otentikasi (Logout)
   void logoutUser() {
     _currentUser = null;
-    notifyListeners(); // Memaksa seluruh UI (HomeScreen) memuat ulang tampilan kembali bersih
+    _token = null; 
+    notifyListeners(); 
   }
 
-  // Perbaikan fungsi update profil lengkap yang sesuai dengan Model Equatable (Final properti)
-  Future<void> updateProfileLengkap({
+  Future<bool> updateProfileLengkap({
     required String id,
     required String nama,
     required String tglLahir,
@@ -65,24 +75,36 @@ class UserViewModel extends ChangeNotifier {
     required String email,
     required String password,
   }) async {
+    if (_token == null) return false;
+
     _isLoading = true;
     notifyListeners();
 
-    // Memperbarui repositori data lokal
-    await _userRepository.updateUser(id, nama);
-
-    // Membuat ulang objek baru karena properti UserModel bermutasi menjadi final (Equatable)
-    _currentUser = UserModel(
-      id: id,
-      namaLengkap: nama,
-      email: email,
-      kataSandi: password,
-      tanggalLahir: tglLahir,
+    final result = await _userRepository.updateUserLengkap(
+      token: _token!,
+      nama: nama,
       nomorTelepon: noTelp,
       alamat: alamat,
     );
 
+    if (result['success'] == true) {
+      _currentUser = UserModel(
+        id: id,
+        namaLengkap: nama,
+        email: email,
+        kataSandi: password,
+        tanggalLahir: tglLahir,
+        nomorTelepon: noTelp,
+        alamat: alamat,
+      );
+      
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    }
+
     _isLoading = false;
     notifyListeners();
+    return false;
   }
 }

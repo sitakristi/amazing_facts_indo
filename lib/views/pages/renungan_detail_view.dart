@@ -1,4 +1,3 @@
-// lib/views/pages/renungan_detail_view.dart
 part of pages;
 
 class RenunganDetailView extends StatelessWidget {

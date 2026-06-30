@@ -1,4 +1,3 @@
-// lib/views/pages/pages.dart
 library pages;
 
 import 'package:flutter/material.dart';

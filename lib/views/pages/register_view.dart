@@ -1,4 +1,3 @@
-// lib/views/pages/register_view.dart
 part of pages;
 
 class RegisterView extends StatefulWidget {

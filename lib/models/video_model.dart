@@ -17,11 +17,18 @@ class VideoModel extends Equatable {
   List<Object?> get props => [id, judul, videoUrl, thumbnailUrl];
 
   factory VideoModel.fromJson(Map<String, dynamic> json) {
+    final String youtubeId = json['youtube_id'] ?? '';
+
     return VideoModel(
       id: json['id'] ?? 0,
-      judul: json['judul'] ?? '',
-      videoUrl: json['video_url'] ?? '',
-      thumbnailUrl: json['thumbnail_url'] ?? 'https://via.placeholder.com/150',
+      judul: json['title'] ?? '',
+      // Diubah kembali menjadi link YouTube utuh agar tombol di UI bisa membukanya
+      videoUrl: youtubeId.isNotEmpty 
+          ? 'https://www.youtube.com/watch?v=$youtubeId' 
+          : '',
+      thumbnailUrl: youtubeId.isNotEmpty 
+          ? 'https://img.youtube.com/vi/$youtubeId/0.jpg' 
+          : 'https://via.placeholder.com/150',
     );
   }
 }

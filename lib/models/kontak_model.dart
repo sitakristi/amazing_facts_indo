@@ -16,17 +16,16 @@ class KontakModel extends Equatable {
     required this.atasNama,
   });
 
-  // Menerapkan model MVVM Equitable dari dosen untuk membandingkan data donasi/kontak
   @override
   List<Object?> get props => [nomorHotline, nomorHumas, namaBank, nomorRekening, atasNama];
 
   factory KontakModel.fromJson(Map<String, dynamic> json) {
     return KontakModel(
-      nomorHotline: json['nomor_hotline'] ?? '',
-      nomorHumas: json['nomor_humas'] ?? '',
-      namaBank: json['nama_bank'] ?? '',
-      nomorRekening: json['nomor_rekening'] ?? '',
-      atasNama: json['atas_nama'] ?? '',
+      nomorHotline: json['cs_whatsapp'] ?? '',       // Cocokkan dengan database Laravel
+      nomorHumas: json['donation_whatsapp'] ?? '',   // Cocokkan dengan database Laravel
+      namaBank: json['nama_bank'] ?? 'Bank Central Asia', // Beri default nama bank kamu
+      nomorRekening: json['bca_account'] ?? '',      // Cocokkan dengan database Laravel
+      atasNama: json['bca_name'] ?? '',              // Cocokkan dengan database Laravel
     );
   }
 }

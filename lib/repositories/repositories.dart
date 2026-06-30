@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import '../models/models.dart';           
 import 'package:amazing_facts_indo/constants.dart';
 
-
 part 'kontak_repository.dart';
 part 'renungan_repository.dart';
 part 'user_repository.dart';

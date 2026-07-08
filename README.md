@@ -117,20 +117,6 @@ Berikut adalah visualisasi hasil pengujian fungsional berdasarkan standar pelapo
 
 ---
 
-## **Refleksi Tugas (Assignment Reflection)**
-
-**Apa yang Saya Pelajari:**
-Proses merombak total struktur aplikasi ini berdasarkan koreksi dari dosen benar-benar memberikan pemahaman baru bagi saya mengenai standar koding industri yang sebenarnya. Di proyek awal, saya akui masih sering mencampuradukkan baris import library pihak ketiga di sembarang file dan menggabungkan banyak logika di dalam satu halaman tampilan yang sama. Melalui revisi ini, saya belajar bagaimana mengisolasi urusan jaringan di folder data, membuat cetakan data yang efisien dengan Equatable, dan menyatukan berkas individu menggunakan sistem ekspor satu pintu (*library, part,* dan *part of*). Memisahkan halaman utama (*pages*) dengan komponen teks input modular (*widgets*) juga membuat saya paham bagaimana cara menulis kode yang efisien, hemat baris, dan tidak berulang-ulang.
-
-Menerapkan tugas pengujian otomatis pada AFL 3 juga membuka mata saya tentang pentingnya aspek *Software Testability*. Saya belajar bahwa kode yang baik bukan hanya sekadar bisa berjalan saat diklik di simulator, melainkan harus memenuhi kriteria *Decomposability* yaitu kemampuan kode untuk dipecah menjadi unit-unit kecil terpisah agar bisa diuji secara terisolasi.
-
-**Tantangan yang Dihadapi:**
-Tantangan terbesar dalam revisi ini adalah menyesuaikan kembali aliran data aplikasi setelah properti pada model diubah menjadi final demi memenuhi syarat Equatable. Saya sempat menghadapi kendala eror kompilasi Xcode yang cukup banyak karena Flutter menolak perubahan variabel user secara langsung menggunakan tanda sama dengan (=) saat fitur edit profil dieksekusi. Untuk mengatasinya, saya belajar menyiasati logika tersebut dengan menyusun ulang fungsi di UserViewModel agar membuat objek UserModel baru dari data input teks yang dikirim oleh View. Tantangan berikutnya, melacak dan memastikan semua file individu terikat dengan benar ke file gerbang utamanya tanpa ada import mandiri yang terselip membutuhkan tingkat ketelitian yang tinggi. Namun, proses debugging ini sangat membantu saya dalam memahami cara kerja state management dan struktur berkas di Flutter dengan lebih baik.
-
-Selain itu, tantangan di AFL 3 adalah memisahkan ketergantungan komponen (*Dependency Management*) agar fungsi yang diuji benar-benar berada dalam kondisi terisolasi murni. Melacak dan memastikan semua file individu terikat dengan benar ke file gerbang utamanya tanpa ada import mandiri yang terselip membutuhkan tingkat ketelitian yang tinggi. Namun, proses debugging dan penyusunan berkas uji ini sangat membantu saya dalam memahami cara kerja state management, siklus hidup pengujian otomatis, dan struktur berkas di Flutter dengan jauh lebih baik.
-
----
-
 # Hasil Pengembangan ALP (Final Project)
 
 Pada tahap Assignment of Learning Project (ALP), aplikasi kembali disempurnakan berdasarkan hasil usability testing yang dilakukan kepada beberapa pengguna. Masukan yang paling sering diberikan adalah penambahan koleksi video pembelajaran Alkitab.
@@ -145,6 +131,25 @@ Perbaikan yang telah dilakukan meliputi:
 Selain itu, struktur aplikasi tetap menggunakan arsitektur MVVM, komunikasi data melalui REST API Laravel, database SQLite, serta Unit Testing yang telah diterapkan pada tahap AFL sebelumnya.
 
 Pengembangan selanjutnya direncanakan mencakup fitur bookmark renungan, remember me, download konten offline, book store, serta upload bukti donasi.
+
+---
+
+## **Refleksi Tugas (Assignment Reflection)**
+
+**Apa yang Saya Pelajari:**
+Proses merombak total struktur aplikasi ini berdasarkan koreksi dari dosen benar-benar memberikan pemahaman baru bagi saya mengenai standar koding industri yang sebenarnya. Di proyek awal, saya akui masih sering mencampuradukkan baris import library pihak ketiga di sembarang file dan menggabungkan banyak logika di dalam satu halaman tampilan yang sama. Melalui revisi ini, saya belajar bagaimana mengisolasi urusan jaringan di folder data, membuat cetakan data yang efisien dengan Equatable, dan menyatukan berkas individu menggunakan sistem ekspor satu pintu (*library, part,* dan *part of*). Memisahkan halaman utama (*pages*) dengan komponen teks input modular (*widgets*) juga membuat saya paham bagaimana cara menulis kode yang efisien, hemat baris, dan tidak berulang-ulang.
+
+Menerapkan tugas pengujian otomatis pada AFL 3 juga membuka mata saya tentang pentingnya aspek *Software Testability*. Saya belajar bahwa kode yang baik bukan hanya sekadar bisa berjalan saat diklik di simulator, melainkan harus memenuhi kriteria *Decomposability* yaitu kemampuan kode untuk dipecah menjadi unit-unit kecil terpisah agar bisa diuji secara terisolasi.
+
+Melalui Assignment of Learning Project (ALP), saya belajar bahwa proses pengembangan aplikasi tidak berhenti ketika seluruh fitur utama sudah berhasil dibuat. Setelah melakukan usability testing, saya memperoleh berbagai masukan dari pengguna yang membantu dalam menyempurnakan aplikasi. Salah satu perbaikan yang dilakukan adalah menambah koleksi video pembelajaran dari dua video menjadi sembilan video sesuai kebutuhan pengguna. Dari proses ini saya memahami bahwa masukan pengguna memiliki peran penting dalam meningkatkan kualitas aplikasi, sehingga pengembangan tidak hanya berfokus pada penulisan kode, tetapi juga pada pengalaman pengguna saat menggunakan aplikasi.
+
+**Tantangan yang Dihadapi:**
+Tantangan terbesar dalam revisi ini adalah menyesuaikan kembali aliran data aplikasi setelah properti pada model diubah menjadi final demi memenuhi syarat Equatable. Saya sempat menghadapi kendala eror kompilasi Xcode yang cukup banyak karena Flutter menolak perubahan variabel user secara langsung menggunakan tanda sama dengan (=) saat fitur edit profil dieksekusi. Untuk mengatasinya, saya belajar menyiasati logika tersebut dengan menyusun ulang fungsi di UserViewModel agar membuat objek UserModel baru dari data input teks yang dikirim oleh View. Tantangan berikutnya, melacak dan memastikan semua file individu terikat dengan benar ke file gerbang utamanya tanpa ada import mandiri yang terselip membutuhkan tingkat ketelitian yang tinggi. Namun, proses debugging ini sangat membantu saya dalam memahami cara kerja state management dan struktur berkas di Flutter dengan lebih baik.
+
+Selain itu, tantangan di AFL 3 adalah memisahkan ketergantungan komponen (*Dependency Management*) agar fungsi yang diuji benar-benar berada dalam kondisi terisolasi murni. Melacak dan memastikan semua file individu terikat dengan benar ke file gerbang utamanya tanpa ada import mandiri yang terselip membutuhkan tingkat ketelitian yang tinggi. Namun, proses debugging dan penyusunan berkas uji ini sangat membantu saya dalam memahami cara kerja state management, siklus hidup pengujian otomatis, dan struktur berkas di Flutter dengan jauh lebih baik.
+
+Pada proses akhir tantangan terbesar pada tahap ALP adalah menyesuaikan hasil pengembangan dengan masukan dari pengguna tanpa mengubah struktur aplikasi yang sudah dibangun menggunakan arsitektur MVVM. Saya juga perlu memastikan bahwa penambahan data video pada backend dapat langsung ditampilkan di aplikasi Flutter tanpa menimbulkan masalah pada proses pengambilan data maupun tampilan antarmuka. Proses pengujian kembali setiap fitur setelah dilakukan perubahan membuat saya lebih memahami pentingnya menjaga konsistensi antara frontend, backend, dan database selama proses pengembangan aplikasi.
+
 ---
 
 Terima Kasih

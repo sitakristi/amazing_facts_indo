@@ -1,3 +1,13 @@
+# Amazing Facts Indonesia Mobile App
+
+## Deskripsi Proyek
+
+Amazing Facts Indonesia merupakan aplikasi mobile berbasis Flutter yang dikembangkan sebagai tugas pada mata kuliah Mobile Application Development. Proyek ini dikerjakan secara bertahap mulai dari Assignment for Learning (AFL) hingga Assignment of Learning Project (ALP).
+
+Pada tahap awal, aplikasi berfokus pada pengembangan fitur utama seperti login, register, renungan harian, video pembelajaran, hotline pelayanan, dan informasi donasi. Seiring berjalannya proses pembelajaran, aplikasi terus dikembangkan dengan menerapkan arsitektur MVVM, integrasi REST API menggunakan Laravel, database SQLite, serta Unit Testing untuk meningkatkan kualitas aplikasi.
+
+Seluruh pengembangan tersebut terdokumentasi pada repositori ini sebagai bagian dari proses pembelajaran selama satu semester.
+
 # **Amazing Facts Indonesia Mobile App (AFL 2 & AFL 3 - MVVM, Jaringan, & Unit Testing)**
 
 Selamat datang di repositori proyek Amazing Facts Indonesia. Aplikasi mobile ini saya kembangkan menggunakan Flutter untuk memenuhi tugas revisi AFL 2 sekaligus melengkapi modul pengujian otomatis untuk memenuhi tugas AFL 3. Melalui pembaruan ini, aplikasi sudah dikembangkan dengan standar arsitektur industri yang siap menghubungkan client-server secara asinkron menggunakan library HTTP.
@@ -119,6 +129,22 @@ Tantangan terbesar dalam revisi ini adalah menyesuaikan kembali aliran data apli
 
 Selain itu, tantangan di AFL 3 adalah memisahkan ketergantungan komponen (*Dependency Management*) agar fungsi yang diuji benar-benar berada dalam kondisi terisolasi murni. Melacak dan memastikan semua file individu terikat dengan benar ke file gerbang utamanya tanpa ada import mandiri yang terselip membutuhkan tingkat ketelitian yang tinggi. Namun, proses debugging dan penyusunan berkas uji ini sangat membantu saya dalam memahami cara kerja state management, siklus hidup pengujian otomatis, dan struktur berkas di Flutter dengan jauh lebih baik.
 
+---
+
+# Hasil Pengembangan ALP (Final Project)
+
+Pada tahap Assignment of Learning Project (ALP), aplikasi kembali disempurnakan berdasarkan hasil usability testing yang dilakukan kepada beberapa pengguna. Masukan yang paling sering diberikan adalah penambahan koleksi video pembelajaran Alkitab.
+
+Perbaikan yang telah dilakukan meliputi:
+
+- penambahan jumlah video pembelajaran dari 2 video menjadi 9 video;
+- penyempurnaan tampilan dan struktur aplikasi agar lebih mudah digunakan;
+- seluruh video dapat dibuka langsung melalui YouTube;
+- koleksi video akan terus diperbarui mengikuti penambahan konten pada kanal YouTube Amazing Facts Indonesia.
+
+Selain itu, struktur aplikasi tetap menggunakan arsitektur MVVM, komunikasi data melalui REST API Laravel, database SQLite, serta Unit Testing yang telah diterapkan pada tahap AFL sebelumnya.
+
+Pengembangan selanjutnya direncanakan mencakup fitur bookmark renungan, remember me, download konten offline, book store, serta upload bukti donasi.
 ---
 
 Terima Kasih
